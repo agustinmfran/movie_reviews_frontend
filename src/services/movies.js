@@ -21,7 +21,7 @@ class MovieDataService {
 
   createComment(data) {
     return axios.post(
-      "hhttps://movies-reviews-backend.vercel.app/api/v1/movies/comments",
+      "https://movies-reviews-backend.vercel.app/api/v1/movies/comments",
       data
     );
   }

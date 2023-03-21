@@ -99,7 +99,7 @@ const MovieList = (props) => {
 
   return (
     <div className="App">
-      <Container>
+      <Container id="home">
         <Form>
           <Row>
             <Col>
@@ -131,10 +131,14 @@ const MovieList = (props) => {
         </Form>
         <Row>
           {movies.map((movie, index) => {
+            let poster = movie.poster;
+            if (poster === undefined) {
+              poster = "/noimage.png";
+            }
             return (
               <Col key={index}>
                 <Card style={{ width: "18rem" }}>
-                  <Card.Img src={movie.poster + "/100px180"} />
+                  <Card.Img src={poster} />
                   <Card.Body>
                     <Card.Title>{movie.title}</Card.Title>
                     <Card.Text>Rating: {movie.rated}</Card.Text>
@@ -147,7 +151,7 @@ const MovieList = (props) => {
           })}
         </Row>
         <br />
-        Showing Page {currentPage}
+        Showing Page {currentPage + 1} {"  "}
         <Button bariant="link" onClick={() => setCurrentPage(currentPage + 1)}>
           Get next {entriesPerPage} results
         </Button>

@@ -46,13 +46,17 @@ function Movie(props) {
         console.log(e);
       });
   };
+  let poster = movie.poster;
+  if (poster === undefined) {
+    poster = "/noimage.png";
+  }
 
   return (
     <div>
       <Container>
         <Row>
           <Col>
-            <Image src={movie.poster + "100px250"} fluid />
+            <Image src={poster} fluid />
           </Col>
           <Col>
             <Card>

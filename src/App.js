@@ -8,6 +8,8 @@ import Login from "./components/Login";
 import AddComment from "./components/AddComment";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
+import Footer from "./components/Footer";
+import Header from "./components/Header";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -19,6 +21,7 @@ function App() {
   }
   return (
     <div className="App">
+      {/* <Header /> */}
       <Navbar bg="light" expand="lg">
         <Container>
           <Navbar.Brand>Movie Reviews</Navbar.Brand>
@@ -56,6 +59,7 @@ function App() {
           render={(props) => <Login {...props} login={login} />}
         />
       </Switch>
+      <Footer />
     </div>
   );
 }
