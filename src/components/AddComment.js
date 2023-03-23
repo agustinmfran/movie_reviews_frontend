@@ -1,8 +1,6 @@
 import { useState } from "react";
 import MovieDataService from "../services/movies";
 import { Link } from "react-router-dom";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
 
 function AddComment(props) {
   let editing = false;
@@ -45,29 +43,43 @@ function AddComment(props) {
   };
 
   return (
-    <div>
+    <section
+      id="home"
+      className="flex flex-col items-center justify-center h-screen"
+    >
       {submitted ? (
-        <div>
-          <h4>Review submitted succesfully</h4>
-          <Link to={"/movies/" + props.match.params.id}>Back to movie</Link>
+        <div className="flex flex-col items-center justify-center">
+          <h4 className="font-bold pb-4">Review submitted succesfully</h4>
+          <Link
+            to={"/movies/" + props.match.params.id}
+            className="text-black font-semibold px-2 py-1 bg-yellow-300 rounded-sm shadow hover:bg-yellow-200 cursor-pointer"
+          >
+            Back to movie
+          </Link>
         </div>
       ) : (
-        <Form>
-          <Form.Group>
-            <Form.Label>{editing ? "Edit" : "Create"} Review</Form.Label>
-            <Form.Control
+        <form className="flex flex-col justify-center items-center">
+          <div className="flex flex-row">
+            <label className="font-bold pr-4">
+              {editing ? "Edit" : "Create"} Review
+            </label>
+            <input
+              className="shadow-lg border-2 rounded pl-2"
               type="text"
-              required
               onChange={onChangeComment}
               value={comment}
             />
-          </Form.Group>
-          <Button variant="primary" onClick={saveComment}>
+          </div>
+          <button
+            className="text-black font-semibold px-2 py-1 mt-4 bg-yellow-300 rounded-sm shadow hover:bg-yellow-200 cursor-pointer"
+            onClick={saveComment}
+            type="button"
+          >
             Submit
-          </Button>
-        </Form>
+          </button>
+        </form>
       )}
-    </div>
+    </section>
   );
 }
 

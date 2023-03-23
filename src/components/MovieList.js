@@ -1,12 +1,6 @@
 import { useState, useEffect } from "react";
 import MovieDataService from "../services/movies";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
-import Col from "react-bootstrap/Col";
-import Row from "react-bootstrap/Row";
-import Card from "react-bootstrap/Card";
-import Container from "react-bootstrap/Container";
-import { Link } from "react-router-dom";
+import Card from "./Card";
 
 const MovieList = (props) => {
   const [movies, setMovies] = useState([]);
@@ -16,6 +10,7 @@ const MovieList = (props) => {
   const [currentPage, setCurrentPage] = useState(0);
   const [entriesPerPage, setEntriesPerPage] = useState(0);
   const [currentSearchMode, setCurrentSearchMode] = useState("");
+  const [totalResults, setTotalResults] = useState(0);
 
   useEffect(() => {
     setCurrentPage(0);
@@ -26,7 +21,7 @@ const MovieList = (props) => {
   }, []);
 
   useEffect(() => {
-    retrieveMovies();
+    retrieveNextPage();
   }, [currentPage]);
 
   const retrieveNextPage = () => {
@@ -45,6 +40,7 @@ const MovieList = (props) => {
         setMovies(response.data.movies);
         setCurrentPage(response.data.page);
         setEntriesPerPage(response.data.entries_per_page);
+        setTotalResults(response.data.total_results);
       })
       .catch((e) => {
         console.log(e);
@@ -98,65 +94,63 @@ const MovieList = (props) => {
   };
 
   return (
-    <div className="App">
-      <Container id="home">
-        <Form>
-          <Row>
-            <Col>
-              <Form.Group>
-                <Form.Control
-                  type="text"
-                  placeholder="Search by title"
-                  value={searchTitle}
-                  onChange={onChangeSearchTitle}
-                />
-              </Form.Group>
-              <Button variant="primary" type="button" onClick={findByTitle}>
-                Search
-              </Button>
-            </Col>
-            <Col>
-              <Form.Group>
-                <Form.Control as="select" onChange={onChangeSearchRating}>
-                  {ratings.map((rating) => {
-                    return <option value={rating}>{rating}</option>;
-                  })}
-                </Form.Control>
-              </Form.Group>
-              <Button variant="primary" type="button" onClick={findByRating}>
-                Search
-              </Button>
-            </Col>
-          </Row>
-        </Form>
-        <Row>
-          {movies.map((movie, index) => {
-            let poster = movie.poster;
-            if (poster === undefined) {
-              poster = "/noimage.png";
-            }
-            return (
-              <Col key={index}>
-                <Card style={{ width: "18rem" }}>
-                  <Card.Img src={poster} />
-                  <Card.Body>
-                    <Card.Title>{movie.title}</Card.Title>
-                    <Card.Text>Rating: {movie.rated}</Card.Text>
-                    <Card.Text>{movie.plot}</Card.Text>
-                    <Link to={"/movies/" + movie._id}>View Reviews</Link>
-                  </Card.Body>
-                </Card>
-              </Col>
-            );
-          })}
-        </Row>
-        <br />
-        Showing Page {currentPage + 1} {"  "}
-        <Button bariant="link" onClick={() => setCurrentPage(currentPage + 1)}>
+    <section id="home" className="flex-col justify-center items-center">
+      <form className="flex flex-col md:flex-row pt-24 pb-20 ">
+        <div className="pb-4 pl-2 md:pr-8">
+          <input
+            className="outline-none text-lg border-b-2"
+            type="text"
+            placeholder="Search by title"
+            value={searchTitle}
+            onChange={onChangeSearchTitle}
+          />
+
+          <button
+            className="text-black font-semibold px-2 py-1 bg-yellow-300 rounded-sm shadow hover:bg-yellow-200 cursor-pointer"
+            type="button"
+            onClick={findByTitle}
+          >
+            Search
+          </button>
+        </div>
+        <div>
+          <select
+            className="px-2 py-1 rounded font-bold hover:border-yellow-300 hover:border-2 focus:outline-none cursor-pointer"
+            onChange={onChangeSearchRating}
+            onClick={findByRating}
+          >
+            {ratings.map((rating, index) => {
+              return (
+                <option value={rating} key={index}>
+                  {rating}
+                </option>
+              );
+            })}
+          </select>
+        </div>
+      </form>
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
+        {movies.map((movie, index) => {
+          let poster = movie.poster;
+          if (poster === undefined) {
+            poster = "/noimage.png";
+          }
+          return <Card key={index} movie={movie} />;
+        })}
+      </div>
+      <div className="flex flex-row items-center justify-between pt-8 font-bold">
+        <div>
+          Page {currentPage + 1} of{" "}
+          {Math.ceil(Number(totalResults) / entriesPerPage)}
+        </div>
+        <button
+          className="text-black font-semibold px-2 py-1 bg-yellow-300 rounded-sm shadow hover:bg-yellow-200 cursor-pointer"
+          onClick={() => setCurrentPage(currentPage + 1)}
+        >
           Get next {entriesPerPage} results
-        </Button>
-      </Container>
-    </div>
+        </button>
+      </div>
+    </section>
   );
 };
 

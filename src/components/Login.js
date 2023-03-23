@@ -1,6 +1,4 @@
 import { useState } from "react";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
 
 function Login(props) {
   const [name, setName] = useState("");
@@ -19,31 +17,36 @@ function Login(props) {
   };
 
   return (
-    <div>
-      <Form>
-        <Form.Group>
-          <Form.Label>Username</Form.Label>
-          <Form.Control
+    <section id="home">
+      <form className="flex flex-col justify-center items-center h-screen ">
+        <div className="flex-row pb-4">
+          <label className="font-bold text-2xl pr-6">Username</label>
+          <input
+            className="outline-none"
             type="text"
             onChange={onChangeName}
             value={name}
             placeholder="Enter username"
           />
-        </Form.Group>
-        <Form.Group>
-          <Form.Label>ID</Form.Label>
-          <Form.Control
+        </div>
+        <div className="flex-row pb-4">
+          <label className="font-bold text-2xl pr-28">ID</label>
+          <input
+            className="outline-none"
             type="text"
             onChange={onChangeId}
             value={id}
             placeholder="Enter ID"
           />
-        </Form.Group>
-        <Button variant="primary" onClick={login}>
+        </div>
+        <button
+          className="text-black font-semibold px-2 py-1 bg-yellow-300 rounded-sm shadow hover:bg-yellow-200 cursor-pointer"
+          onClick={login}
+        >
           Submit
-        </Button>
-      </Form>
-    </div>
+        </button>
+      </form>
+    </section>
   );
 }
 
