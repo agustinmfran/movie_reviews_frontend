@@ -10,7 +10,6 @@ const MovieList = (props) => {
   const [currentPage, setCurrentPage] = useState(0);
   const [entriesPerPage, setEntriesPerPage] = useState(0);
   const [currentSearchMode, setCurrentSearchMode] = useState("");
-  const [totalResults, setTotalResults] = useState(0);
 
   useEffect(() => {
     setCurrentPage(0);
@@ -40,7 +39,6 @@ const MovieList = (props) => {
         setMovies(response.data.movies);
         setCurrentPage(response.data.page);
         setEntriesPerPage(response.data.entries_per_page);
-        setTotalResults(response.data.total_results);
       })
       .catch((e) => {
         console.log(e);
@@ -139,10 +137,7 @@ const MovieList = (props) => {
         })}
       </div>
       <div className="flex flex-row items-center justify-between pt-8 font-bold">
-        <div>
-          Page {currentPage + 1} of{" "}
-          {Math.ceil(Number(totalResults) / entriesPerPage)}
-        </div>
+        <div>Page {currentPage + 1}</div>
         <button
           className="text-black font-semibold px-2 py-1 bg-yellow-300 rounded-sm shadow hover:bg-yellow-200 cursor-pointer"
           onClick={() => setCurrentPage(currentPage + 1)}
