@@ -48,7 +48,7 @@ const Movie = (props, user) => {
   return (
     <section
       id="home"
-      className="max-w-4xl mx-auto pt-24 md:pt-64 lg:pt-28 h-screen"
+      className="max-w-4xl mx-auto pt-24 md:pt-64 lg:pt-28 md:h-screen"
     >
       <div className="flex flex-col justify-center items-center md:flex-col lg:items-start lg:flex-row px-3">
         <div className="md:w-1/3 pr-4">
